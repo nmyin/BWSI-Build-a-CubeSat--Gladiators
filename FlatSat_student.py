@@ -17,14 +17,14 @@ You will need to complete the take_photo() function and configure the VARIABLES 
 import time
 import board
 from adafruit_lsm6ds.lsm6dsox import LSM6DSOX as LSM6DS
-from adafruit_lis3mdl import LIS3MDL
+from adafruit_lis3mdl import LIS3MD
 from git import Repo
 from picamera2 import Picamera2
 
 #VARIABLES
-THRESHOLD = 0      #Any desired value from the accelerometer
-REPO_PATH = ""     #Your github repo path: ex. /home/pi/FlatSatChallenge
-FOLDER_PATH = ""   #Your image folder path in your GitHub repo: ex. /Images
+THRESHOLD = 2      #Any desired value from the accelerometer
+REPO_PATH = "/home/pi/FlatSatChallenge"     #Your github repo path: ex. /home/pi/FlatSatChallenge
+FOLDER_PATH = "/Images"   #Your image folder path in your GitHub repo: ex. /Images
 
 #imu and camera initialization
 i2c = board.I2C()
@@ -69,9 +69,28 @@ def take_photo():
     This function is NOT complete. Takes a photo when the FlatSat is shaken.
     Replace psuedocode with your own code.
     """
+
+    # start camera
+    picam2.start()
+    print("Camera Started.")
+
     while True:
         accelx, accely, accelz = accel_gyro.acceleration
+        if accelx > THRESHOLD or accely > THRESHOLD or accelz > THRESHOLD:
+            print("Taking Photo!")
+            time.sleep(0.5)
+            image_name = img_gen("GladiatorsMatadors")
 
+            # Take the photo and save it
+            picam2.capture_file(image_name)
+            print(f"Photo saved as: {image_name}")
+
+            # Push the photo to GitHub
+            git_push()
+
+        # Add a small delay in the loop to avoid overwhelming the system
+        time.sleep(0.1)
+            
         #CHECKS IF READINGS ARE ABOVE THRESHOLD
             #PAUSE
             #name = ""     #First Name, Last Initial  ex. MasonM

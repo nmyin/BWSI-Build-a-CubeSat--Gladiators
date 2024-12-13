@@ -7,6 +7,7 @@ from adafruit_lis3mdl import LIS3MDL
 
 picam = Picamera2()
 picam.configure(picam.create_still_configuration(main={"size": (1280, 720), "format": "RGB888"}))
+#picam.shutter_speed = 1 SETS SHUTTER SPEED TO 1 MILLISECOND
 picam.start()
 
 #VARIABLES

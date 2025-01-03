@@ -1,0 +1,20 @@
+Import bluetooth
+# Target Bluetooth address
+target_device = "00:11:22:33:44:55"
+ 
+# Create a socket
+sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+ 
+# Connect to the target device
+sock.connect((target_device, 1))
+ 
+# Data to send
+data_to_send = "Hello from Raspberry Pi!"
+
+
+# Send data
+sock.send(data_to_send.encode())
+
+
+# Close the socket
+sock.close()

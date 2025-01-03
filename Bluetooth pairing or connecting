@@ -1,0 +1,5 @@
+Bluetoothctl
+pair [MAC address]
+trust [MAC address]
+connect [MAC address]
+MAC adress: ground station address

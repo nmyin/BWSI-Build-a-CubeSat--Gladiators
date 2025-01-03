@@ -1,0 +1,50 @@
+#yea idk if this works
+
+import bluetooth
+from cryptography.fernet import Fernet
+
+
+
+# Generate a key
+key = Fernet.generate_key()
+
+
+
+# Function to encrypt data
+def encrypt_data(data, key):
+    f = Fernet(key)
+    encrypted_data = f.encrypt(data.encode())
+    return encrypted_data
+
+
+
+# Bluetooth connection setup (replace with your target device details)
+target_device = "00:11:22:33:44:55"
+port = 1
+
+
+
+# Establish Bluetooth connection
+sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+sock.connect((target_device, port))
+
+
+
+# Example data to encrypt
+data_to_send = "Secret message"
+
+# Encrypt data
+encrypted_data = encrypt_data(data_to_send, key)
+
+
+
+# Send encrypted data over Bluetooth
+sock.send(encrypted_data)
+
+
+
+sock.close()
+
+
+
+
